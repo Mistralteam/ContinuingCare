@@ -131,7 +131,7 @@ const RentModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Which of these best describes your place?"
+        title="Which of these best describes your business?"
         subtitle="Pick a category"
       />
       <div 
@@ -159,6 +159,7 @@ const RentModal = () => {
     </div>
   )
 
+ 
   if (step === STEPS.LOCATION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
@@ -168,8 +169,26 @@ const RentModal = () => {
         />
         <CountrySelect 
           value={location} 
-          onChange={(value) => setCustomValue('location', value)} 
+          onChange={(value) => setCustomValue('location', value)}
         />
+        {/* Add input fields for suburb and state */}
+        <Input
+          id="suburb"
+          label="Suburb"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        <Input
+          id="state"
+          label="State"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+        {/* Map component */}
         <Map center={location?.latlng} />
       </div>
     );

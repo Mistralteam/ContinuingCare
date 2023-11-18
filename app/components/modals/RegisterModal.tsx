@@ -28,14 +28,13 @@ const RegisterModal= () => {
   const { 
     register, 
     handleSubmit,
-    formState: {
-      errors,
-    },
+    formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      role: 'REGULAR', // Default role
     },
   });
 
@@ -92,8 +91,22 @@ const RegisterModal= () => {
         errors={errors}
         required
       />
+      <div className="mb-4">
+        <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Role</label>
+        <select 
+          id="role" 
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          disabled={isLoading}
+          {...register("role", { required: true })}
+        >
+          <option value="REGULAR">Regular User</option>
+          <option value="NURSING_HOME">Nursing Home</option>
+        </select>
+        {errors.role && <p className="text-red-500 text-xs italic">Role is required.</p>}
+      </div>
     </div>
-  )
+  );
+  
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">

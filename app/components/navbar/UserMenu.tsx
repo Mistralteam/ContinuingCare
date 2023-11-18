@@ -36,46 +36,36 @@ const UserMenu: React.FC<UserMenuProps> = ({
     if (!currentUser) {
       return loginModal.onOpen();
     }
+    
 
     rentModal.onOpen();
   }, [loginModal, rentModal, currentUser]);
-
-  return ( 
+  return (
     <div className="relative">
-      <div className="flex flex-row items-center gap-3">
+    <div className="flex flex-row items-center gap-3">
+      <div 
+        onClick={onRent}
+        className={`text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer ${currentUser && currentUser.role === 'NURSING_HOME' ? 'visible' : 'invisible'}`}
+      >
+        Add a listing
+      </div>
+        
         <div 
-          onClick={onRent}
+          onClick={toggleOpen}
           className="
-            hidden
-            md:block
-            text-sm 
-            font-semibold 
-            py-3 
-            px-4 
+            p-4
+            md:py-1
+            md:px-2
+            border-[1px] 
+            border-neutral-200 
+            flex 
+            flex-row 
+            items-center 
+            gap-3 
             rounded-full 
-            hover:bg-neutral-100 
-            transition 
-            cursor-pointer
-          "
-        >
-          Join the Care Family
-        </div>
-        <div 
-        onClick={toggleOpen}
-        className="
-          p-4
-          md:py-1
-          md:px-2
-          border-[1px] 
-          border-neutral-200 
-          flex 
-          flex-row 
-          items-center 
-          gap-3 
-          rounded-full 
-          cursor-pointer 
-          hover:shadow-md 
-          transition
+            cursor-pointer 
+            hover:shadow-md 
+            transition
           "
         >
           <AiOutlineMenu />
@@ -102,26 +92,31 @@ const UserMenu: React.FC<UserMenuProps> = ({
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                <MenuItem 
-                  label="My trips" 
-                  onClick={() => router.push('/trips')}
-                />
-                <MenuItem 
-                  label="My favorites" 
-                  onClick={() => router.push('/favorites')}
-                />
-                <MenuItem 
-                  label="My reservations" 
-                  onClick={() => router.push('/reservations')}
-                />
-                <MenuItem 
-                  label="My properties" 
-                  onClick={() => router.push('/properties')}
-                />
-                <MenuItem 
-                  label="Airbnb your home" 
-                  onClick={rentModal.onOpen}
-                />
+                {currentUser.role === 'NURSING_HOME' ? (
+                  <>
+                    <MenuItem 
+                      label="My Listings" 
+                      onClick={() => router.push('/properties')}
+                    />
+                    <MenuItem 
+                      label="Reservations" 
+                      onClick={() => router.push('/reservations')}
+                    />
+                    {/* Add any other nursing home specific items */}
+                  </>
+                ) : (
+                  <>
+                    <MenuItem 
+                      label="My trips" 
+                      onClick={() => router.push('/trips')}
+                    />
+                    <MenuItem 
+                      label="My favorites" 
+                      onClick={() => router.push('/favorites')}
+                    />
+                    {/* Add any other regular user specific items */}
+                  </>
+                )}
                 <hr />
                 <MenuItem 
                   label="Logout" 
@@ -130,21 +125,22 @@ const UserMenu: React.FC<UserMenuProps> = ({
               </>
             ) : (
               <>
-                <MenuItem 
-                  label="Login" 
-                  onClick={loginModal.onOpen}
-                />
-                <MenuItem 
-                  label="Sign up" 
-                  onClick={registerModal.onOpen}
-                />
-              </>
-            )}
+              {/* Login and Sign up for non-logged-in users */}
+              <MenuItem 
+                label="Login" 
+                onClick={loginModal.onOpen}
+              />
+              <MenuItem 
+                label="Sign up" 
+                onClick={registerModal.onOpen}
+              />
+            </>
+          )}
           </div>
         </div>
       )}
     </div>
-   );
-}
- 
+  );
+};
+
 export default UserMenu;

@@ -13,7 +13,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({
   currentUser,
 }) => {
-  return ( 
+  return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div
         className="
@@ -21,27 +21,32 @@ const Navbar: React.FC<NavbarProps> = ({
           border-b-[1px]
         "
       >
-      <Container>
-        <div 
-          className="
-            flex 
-            flex-row 
-            items-center 
-            justify-between
-            gap-3
-            md:gap-0
-          "
-        >
-          <Logo />
-          <Search />
-          <UserMenu currentUser={currentUser} />
-        </div>
-      </Container>
+        <Container>
+          <div 
+            className="
+              flex 
+              flex-row 
+              items-center 
+              justify-between
+              gap-3
+              md:gap-0
+            "
+          >
+            <Logo />
+            <Search />
+            <UserMenu currentUser={currentUser} />
+          </div>
+          {/* Display a message if the user is a Nursing Home */}
+          {currentUser && currentUser.role === 'NURSING_HOME' && (
+            <div className="text-sm text-gray-600">
+              Logged in as Nursing Home
+            </div>
+          )}
+        </Container>
+      </div>
+      <Categories />
     </div>
-    <Categories />
-  </div>
   );
 }
-
 
 export default Navbar;
