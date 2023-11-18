@@ -7,22 +7,31 @@ import { differenceInDays } from 'date-fns';
 
 import useSearchModal from '@/app/hooks/useSearchModal';
 import useCountries from '@/app/hooks/useCountries';
+import { SafeUser } from '@/app/types'; // Assuming this type includes a role property
 
-const Search = () => {
+interface SearchProps {
+  currentUser?: SafeUser | null;
+}
+
+const Search: React.FC<SearchProps> = ({ currentUser }) => {
+  // Only show the search bar for regular users
+  if (currentUser?.role !== 'REGULAR') {
+    return null;
+  }
+
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useCountries();
 
-  const  locationValue = params?.get('locationValue'); 
-  const  startDate = params?.get('startDate');
-  const  endDate = params?.get('endDate');
-  const  guestCount = params?.get('guestCount');
+  const locationValue = params?.get('locationValue'); 
+  const startDate = params?.get('startDate');
+  const endDate = params?.get('endDate');
+  const guestCount = params?.get('guestCount');
 
   const locationLabel = useMemo(() => {
     if (locationValue) {
       return getByValue(locationValue as string)?.label;
     }
-
     return 'Anywhere';
   }, [locationValue, getByValue]);
 
@@ -31,26 +40,22 @@ const Search = () => {
       const start = new Date(startDate as string);
       const end = new Date(endDate as string);
       let diff = differenceInDays(end, start);
-
       if (diff === 0) {
         diff = 1;
       }
-
       return `${diff} Days`;
     }
-
-    return 'Any Week'
+    return 'Any Week';
   }, [startDate, endDate]);
 
   const guestLabel = useMemo(() => {
     if (guestCount) {
       return `${guestCount} Guests`;
     }
-
     return 'Add Guests';
   }, [guestCount]);
 
-  return ( 
+  return (
     <div
       onClick={searchModal.onOpen}
       className="
@@ -123,6 +128,6 @@ const Search = () => {
       </div>
     </div>
   );
-}
- 
+};
+
 export default Search;
