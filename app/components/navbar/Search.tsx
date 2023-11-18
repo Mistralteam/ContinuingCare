@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useSearchParams } from 'next/navigation';
-import { useMemo } from 'react';
-import { BiSearch } from 'react-icons/bi';
-import { differenceInDays } from 'date-fns';
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
+import { BiSearch } from "react-icons/bi";
+import { differenceInDays } from "date-fns";
 
-import useSearchModal from '@/app/hooks/useSearchModal';
-import useCountries from '@/app/hooks/useCountries';
-import { SafeUser } from '@/app/types'; // Assuming this type includes a role property
+import useSearchModal from "@/app/hooks/useSearchModal";
+import useCountries from "@/app/hooks/useCountries";
+import { SafeUser } from "@/app/types"; // Assuming this type includes a role property
 
 interface SearchProps {
   currentUser?: SafeUser | null;
@@ -15,26 +15,26 @@ interface SearchProps {
 
 const Search: React.FC<SearchProps> = ({ currentUser }) => {
   // Debugging: Log the currentUser object
-  console.log('Current User:', currentUser);
+  console.log("Current User:", currentUser);
 
   // Only hide the search bar for nursing home accounts
-  if (currentUser?.role === 'NURSING_HOME') {
+  if (currentUser?.role === "NURSING_HOME") {
     return null;
   }
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useCountries();
 
-  const locationValue = params?.get('locationValue'); 
-  const startDate = params?.get('startDate');
-  const endDate = params?.get('endDate');
-  const guestCount = params?.get('guestCount');
+  const locationValue = params?.get("locationValue");
+  const startDate = params?.get("startDate");
+  const endDate = params?.get("endDate");
+  const guestCount = params?.get("guestCount");
 
   const locationLabel = useMemo(() => {
     if (locationValue) {
       return getByValue(locationValue as string)?.label;
     }
-    return 'Anywhere';
+    return "Location";
   }, [locationValue, getByValue]);
 
   const durationLabel = useMemo(() => {
@@ -47,14 +47,14 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
       }
       return `${diff} Days`;
     }
-    return 'Any Week';
+    return "Time";
   }, [startDate, endDate]);
 
   const guestLabel = useMemo(() => {
     if (guestCount) {
       return `${guestCount} Guests`;
     }
-    return 'Add Guests';
+    return "You or Someone Else?";
   }, [guestCount]);
 
   return (
@@ -72,7 +72,7 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
         cursor-pointer
       "
     >
-      <div 
+      <div
         className="
           flex 
           flex-row 
@@ -80,7 +80,7 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
           justify-between
         "
       >
-        <div 
+        <div
           className="
             text-sm 
             font-semibold 
@@ -89,7 +89,7 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
         >
           {locationLabel}
         </div>
-        <div 
+        <div
           className="
             hidden 
             sm:block 
@@ -103,7 +103,7 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
         >
           {durationLabel}
         </div>
-        <div 
+        <div
           className="
             text-sm 
             pl-6 
@@ -116,7 +116,7 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
           "
         >
           <div className="hidden sm:block">{guestLabel}</div>
-          <div 
+          <div
             className="
               p-2 
               bg-rose-500 

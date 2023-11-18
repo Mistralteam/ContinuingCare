@@ -7,6 +7,7 @@ const formattedCountries = countries
     flag: country.flag,
     latlng: country.latlng,
     region: country.region,
+    
   }));
 
   const useCountries = () => {
