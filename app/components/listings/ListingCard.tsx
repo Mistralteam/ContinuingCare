@@ -112,7 +112,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         </div>
         Estimated location
         <div className="font-semibold text-lg">
-         {data.suburb ? `${data.suburb}, ` : ''},{data.state ? `${data.state}, ` : ''}{location?.label}
+         {data.suburb ? `${data.suburb}, ` : ''}{data.state ? `${data.state}, ` : ''}{location?.label}
         </div>
         <div className="font-light text-neutral-500">
           {reservationDate || data.category}

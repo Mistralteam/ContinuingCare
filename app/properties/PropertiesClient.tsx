@@ -7,34 +7,33 @@ import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { SafeListing, SafeUser } from "@/app/types";
-
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
-// import EditListingModal from "@/app/components/modals/EditListingModal";
-
 
 interface PropertiesClientProps {
   listings: SafeListing[],
   currentUser?: SafeUser | null,
 }
 
-const PropertiesClient: React.FC<PropertiesClientProps> = ({
-  listings,
-  currentUser
-}) => {
+const PropertiesClient: React.FC<PropertiesClientProps> = ({ listings, currentUser }) => {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState('');
-  const [editListing, setEditListing] = useState<SafeListing | null>(null); // State to hold the listing being edited
 
   const onDelete = useCallback((id: string) => {
-    // existing delete logic
+    setDeletingId(id);
+    axios.delete(`/api/listings/${id}`)
+      .then(() => {
+        toast.success('Listing deleted');
+        setDeletingId('');
+        // Refresh the page or update the state to remove the deleted listing
+        router.refresh();
+      })
+      .catch((error) => {
+        toast.error(error?.response?.data?.error || 'Error deleting listing');
+        setDeletingId('');
+      });
   }, [router]);
-
-  const onEdit = useCallback((listing: SafeListing) => {
-    // Open the edit modal with the selected listing
-    setEditListing(listing);
-  }, []);
 
   return ( 
     <Container>
@@ -49,16 +48,9 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             disabled={deletingId === listing.id}
             actionLabel="Delete Listing"
             currentUser={currentUser}
-            onEdit={() => onEdit(listing)} // Add an edit button or link
           />
         ))}
       </div>
-      {/* {editListing && (
-        <EditListingModal
-          listing={editListing}
-          onClose={() => setEditListing(null)}
-        />
-      )} */}
     </Container>
   );
 }

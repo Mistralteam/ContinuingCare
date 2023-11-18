@@ -2,22 +2,18 @@
 
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiHomeHeart, BiCalendar, BiUser } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
 
 import useSearchModal from "@/app/hooks/useSearchModal";
 import useCountries from "@/app/hooks/useCountries";
-import { SafeUser } from "@/app/types"; // Assuming this type includes a role property
+import { SafeUser } from "@/app/types";
 
 interface SearchProps {
   currentUser?: SafeUser | null;
 }
 
 const Search: React.FC<SearchProps> = ({ currentUser }) => {
-  // Debugging: Log the currentUser object
-  console.log("Current User:", currentUser);
-
-  // Only hide the search bar for nursing home accounts
   if (currentUser?.role === "NURSING_HOME") {
     return null;
   }
@@ -57,77 +53,22 @@ const Search: React.FC<SearchProps> = ({ currentUser }) => {
     return "You or Someone Else?";
   }, [guestCount]);
 
+  
   return (
-    <div
-      onClick={searchModal.onOpen}
-      className="
-        border-[1px] 
-        w-full 
-        md:w-auto 
-        py-2 
-        rounded-full 
-        shadow-sm 
-        hover:shadow-md 
-        transition 
-        cursor-pointer
-      "
-    >
-      <div
-        className="
-          flex 
-          flex-row 
-          items-center 
-          justify-between
-        "
-      >
-        <div
-          className="
-            text-sm 
-            font-semibold 
-            px-6
-          "
-        >
-          {locationLabel}
-        </div>
-        <div
-          className="
-            hidden 
-            sm:block 
-            text-sm 
-            font-semibold 
-            px-6 
-            border-x-[1px] 
-            flex-1 
-            text-center
-          "
-        >
-          {durationLabel}
-        </div>
-        <div
-          className="
-            text-sm 
-            pl-6 
-            pr-2 
-            text-gray-600 
-            flex 
-            flex-row 
-            items-center 
-            gap-3
-          "
-        >
-          <div className="hidden sm:block">{guestLabel}</div>
-          <div
-            className="
-              p-2 
-              bg-rose-500 
-              rounded-full 
-              text-white
-            "
-          >
-            <BiSearch size={18} />
-          </div>
-        </div>
+    <div onClick={searchModal.onOpen} className="search-bar-container">
+      <div className="search-section">
+        <BiHomeHeart className="search-icon" />
+        <span className="search-label">{locationLabel}</span>
       </div>
+      <div className="search-section">
+        <BiCalendar className="search-icon" />
+        <span className="search-label">{durationLabel}</span>
+      </div>
+      <div className="search-section">
+        <BiUser className="search-icon" />
+        <span className="search-label">{guestLabel}</span>
+      </div>
+      <BiSearch className="search-button" size={36} />
     </div>
   );
 };
