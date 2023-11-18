@@ -9,19 +9,21 @@ const Logo = () => {
   return (
     <div
       onClick={() => router.push('/')}
-      className="hidden md:block cursor-pointer"
-      style={{
-        color: '#ff3366', // Reddish-pink color
-        fontSize: '24px', // Larger font size
-        // fontWeight: 'bold', // Bold font weight
-        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)', // Text shadow for depth
-        letterSpacing: '1px', // Spacing between letters
-        fontFamily: 'Arial, sans-serif', // Font family
-        transition: 'transform 0.3s ease', // Smooth transition for hover effect
+      className="cursor-pointer"
+      style={{ 
+        // If you want to add additional styling, add it here
+        display: 'flex', // For centering the image
       }}
     >
-      Continuing Care
+      <Image
+        src="/images/logo.png" // Path to your logo image in the public folder
+        alt="Continuing Care Logo"
+        width={100} // Set your desired width
+        height={20} // Set your desired height
+        objectFit="contain" // Adjust the fit as per your requirement
+      />
     </div>
   );
-}
+};
+
 export default Logo;
