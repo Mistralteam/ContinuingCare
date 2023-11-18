@@ -24,6 +24,8 @@ interface ListingCardProps {
   actionLabel?: string;
   actionId?: string;
   currentUser?: SafeUser | null
+  onEdit?: () => void; // Add this line
+
 };
 
 const ListingCard: React.FC<ListingCardProps> = ({
