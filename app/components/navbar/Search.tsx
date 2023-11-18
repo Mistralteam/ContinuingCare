@@ -14,11 +14,13 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ currentUser }) => {
-  // Only show the search bar for regular users
-  if (currentUser?.role !== 'REGULAR') {
+  // Debugging: Log the currentUser object
+  console.log('Current User:', currentUser);
+
+  // Only hide the search bar for nursing home accounts
+  if (currentUser?.role === 'NURSING_HOME') {
     return null;
   }
-
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useCountries();

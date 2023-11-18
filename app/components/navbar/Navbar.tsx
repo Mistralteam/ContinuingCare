@@ -10,31 +10,19 @@ interface NavbarProps {
   currentUser?: SafeUser | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({
-  currentUser,
-}) => {
+const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm">
       <div
-        className="
-          py-4 
-          border-b-[1px]
-        "
+        className="py-4 border-b-[1px]"
       >
         <Container>
           <div 
-            className="
-              flex 
-              flex-row 
-              items-center 
-              justify-between
-              gap-3
-              md:gap-0
-            "
+            className="flex flex-row items-center justify-between gap-3 md:gap-0"
           >
             <Logo />
-            <Search />
-            <UserMenu currentUser={currentUser} />
+            <Search currentUser={currentUser} /> {/* Pass currentUser to Search */}
+            <UserMenu currentUser={currentUser} /> {/* Pass currentUser to UserMenu */}
           </div>
           {/* Display a message if the user is a Nursing Home */}
           {currentUser && currentUser.role === 'NURSING_HOME' && (
